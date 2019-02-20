@@ -10,21 +10,21 @@
 #include <QJsonValue>
 #include <QJsonDocument>
 
+#include "request.h"
+#include "requesthandler.h"
+
 class RequestProcessing : public QRunnable
 {
 public:
-    RequestProcessing(qintptr socket_id, QSqlDatabase* db);
+    RequestProcessing(qintptr socket_id, std::shared_ptr<QSqlDatabase> db);
     ~RequestProcessing();
     void run();
 private:
-    QString GetUri(const QString& body_http);
     void Responce();
-    void ChannelsHandle();
-    void FilmsHandle();
 private:
     qintptr Socket_id;
-    QTcpSocket* Socket;
-    QSqlDatabase* DB;
+    std::unique_ptr<QTcpSocket> Socket_;
+    std::shared_ptr<QSqlDatabase> DB_;
 };
 
 #endif // REQUESTPROCESSING_H

@@ -19,7 +19,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
     server.cpp \
-    requestprocessing.cpp
+    requestprocessing.cpp \
+    request.cpp \
+    requesthandler.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -28,4 +30,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     server.h \
-    requestprocessing.h
+    requestprocessing.h \
+    request.h \
+    requesthandler.h

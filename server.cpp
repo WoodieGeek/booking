@@ -1,10 +1,13 @@
 #include "server.h"
 
-Server::Server(QObject* parent) : QTcpServer(parent) {
-    ThreadPool = new QThreadPool(this);
-    DB = QSqlDatabase::addDatabase("QSQLITE");
-    DB.setDatabaseName("vhost.db");
-    if (!DB.open()) qDebug() << "DB dont open";
+Server::Server(QObject* parent)
+    : QTcpServer(parent)
+    , ThreadPool(new QThreadPool(this)) {
+
+    DB_.reset(new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE")));
+    DB_->setDatabaseName(NameDB);
+    if (!DB_->open())
+        qDebug() << "DB dont open";
 }
 
 Server::~Server() {
@@ -21,6 +24,6 @@ void Server::StartServer() {
 }
 
 void Server::incomingConnection(qintptr socketDescriptor) {
-    RequestProcessing* requestProcessing = new RequestProcessing(socketDescriptor, &DB);
+    RequestProcessing* requestProcessing = new RequestProcessing(socketDescriptor, DB_);
     ThreadPool->start(requestProcessing);
 }

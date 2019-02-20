@@ -16,18 +16,14 @@ class Server : public QTcpServer
 public:
     explicit Server(QObject* parent = nullptr);
     ~Server();
-
-    QTcpSocket* Socket;
-    QByteArray Data;
     void incomingConnection(qintptr socketDescriptor);
 public slots:
     void StartServer();
 private:
-    QString ChannelsData;
-    QString FilmsData;
-    QThreadPool* ThreadPool;
+    std::unique_ptr<QThreadPool> ThreadPool;
+    std::shared_ptr<QSqlDatabase> DB_;
     quint16 PORT = 8001;
-    QSqlDatabase DB;
+    QString NameDB = "booking.db";
 };
 
 #endif // SERVER_H
