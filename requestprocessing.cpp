@@ -13,12 +13,12 @@ void RequestProcessing::Responce() {
     Request_.reset(new Request(ask));
     RequestHandler handler(DB_, Request_);
     QString responce;
-    if (Request_->GetPath() == "/restaurants.json") {
+    if (Request_->GetPath() == "/restaurants.json")
         responce = handler.RestaurantHandle();
-    }
-    if (Request_->GetPath() == "/orders.json") {
+    if (Request_->GetPath() == "/orders.json")
         responce = handler.OrderByUserIDHandle();
-    }
+    if (Request_->GetPath() == "/tables.json")
+        responce = handler.TablesByRestaurantIDHandle();
     if (responce.isEmpty()) {
         Socket_->write("HTTP/1.1 404 \r\n\r\nBad request");
     }
@@ -38,6 +38,7 @@ void RequestProcessing::run() {
     Socket_->close();
     Socket_->deleteLater();
 }
+
 
 RequestProcessing::~RequestProcessing() {
 

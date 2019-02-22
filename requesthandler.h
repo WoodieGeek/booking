@@ -7,6 +7,7 @@
 #include <QJsonArray>
 #include <QJsonValue>
 #include <QSqlQuery>
+#include <QDateTime>
 #include "request.h"
 
 class RequestHandler
@@ -15,6 +16,7 @@ public:
     RequestHandler(std::shared_ptr<QSqlDatabase> db, std::shared_ptr<Request> request);
     QString RestaurantHandle();
     QString OrderByUserIDHandle();
+    QString TablesByRestaurantIDHandle();
 private:
     std::shared_ptr<QSqlDatabase> DB_;
     std::shared_ptr<Request> Request_;

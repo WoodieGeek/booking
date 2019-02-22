@@ -71,3 +71,47 @@ QString RequestHandler::OrderByUserIDHandle() {
     result.setArray(ordersArray);
     return QString(result.toJson());
 }
+
+QString RequestHandler::TablesByRestaurantIDHandle() {
+    QJsonArray tables;
+    QString getRestaurant("SELECT ID, Type, H, W, X, Y FROM Tables WHERE RestaurantID = %1");
+    QString getOrders(QString("SELECT ") +
+                      "Orders.StartTime, Orders.FinishTime FROM BookedTables INNER JOIN Orders on " +
+                      "BookedTables.OrderID = Orders.ID " +
+                      "WHERE BookedTables.TableID = %1  and Orders.StartTime >= %2 and FinishTime <= %3");
+    QVector<QString> columnTable = {"ID", "H", "W", "X", "Y", "Type"};
+    QDateTime current;
+    if (Request_->GetCgi("date").isEmpty())
+        return QString();
+    current.setSecsSinceEpoch(Request_->GetCgi("date").toInt());
+    QDate day = current.date();
+    QDateTime startDay(day);
+    QDateTime finishDay(day.addDays(1));
+    QString left = QString::number(startDay.toSecsSinceEpoch());
+    QString right = QString::number(finishDay.toSecsSinceEpoch());
+    std::unique_ptr<QSqlQuery> queryRestaurant(new QSqlQuery(*DB_));
+    if (Request_->GetCgi("id").isEmpty())
+        return QString();
+    if (queryRestaurant->exec(getRestaurant.arg(Request_->GetCgi("id")))) {
+        while (queryRestaurant->next()) {
+            QJsonObject table;
+            for (int i = 0; i < columnTable.size(); i++) {
+                table[columnTable[i]] = queryRestaurant->value(i).toString();
+            }
+            std::unique_ptr<QSqlQuery> queryTables(new QSqlQuery(*DB_));
+            QJsonArray orders;
+            qDebug() << getOrders.arg(table["ID"].toString(), left, right);
+            if (queryTables->exec(getOrders.arg(table["ID"].toString(), left, right))) {
+                while (queryTables->next()) {
+                    orders.append(queryTables->value(0).toString());
+                    orders.append(queryTables->value(1).toString());
+                }
+            }
+            table["Orders"] = std::move(orders);
+            tables.append(std::move(table));
+        }
+    }
+    QJsonDocument result;
+    result.setArray(tables);
+    return QString(result.toJson());
+}
