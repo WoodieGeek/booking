@@ -13,11 +13,13 @@ public:
     const QString& GetType() const;
     const QString& GetUri() const;
     const QString& GetPath() const;
+    const QString& GetBody() const;
     QString GetCgi(const QString& name) const;
 private:
     QString Type_;
     QString Url_;
     QString Path_;
+    QString Body_;
     QMap<QString, QString> Headers_;
     QMap<QString, QString> Cgi_;
 };

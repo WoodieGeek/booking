@@ -11,7 +11,7 @@
 #include <QJsonDocument>
 
 #include "request.h"
-#include "requesthandler.h"
+#include "getrequesthandler.h"
 
 class RequestProcessing : public QRunnable
 {
@@ -21,6 +21,8 @@ public:
     void run();
 private:
     void Responce();
+    void GetRequest();
+    void PostRequest();
 private:
     qintptr Socket_id;
     std::unique_ptr<QTcpSocket> Socket_;

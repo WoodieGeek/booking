@@ -1,7 +1,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include "requestprocessing.h"
+#include "handling/requestprocessing.h"
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QDateTime>

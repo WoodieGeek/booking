@@ -6,6 +6,9 @@ Request::Request(const QString& request) {
     this->Type_ = StartingLine[0];
     this->Url_ = StartingLine[1];
     headers.pop_front();
+    qDebug() << headers.back();
+    this->Body_ = headers.back();
+    headers.pop_back();
     for (auto& line : headers) {
         QString key, value;
         bool wasDelimiter = false;
@@ -50,4 +53,8 @@ QString Request::GetCgi(const QString& name) const {
         return Cgi_[name];
     else
         return QString();
+}
+
+const QString& Request::GetBody() const {
+    return Body_;
 }

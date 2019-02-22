@@ -10,10 +10,10 @@
 #include <QDateTime>
 #include "request.h"
 
-class RequestHandler
+class GetRequestHandler
 {
 public:
-    RequestHandler(std::shared_ptr<QSqlDatabase> db, std::shared_ptr<Request> request);
+    GetRequestHandler(std::shared_ptr<QSqlDatabase> db, std::shared_ptr<Request> request);
     QString RestaurantHandle();
     QString OrderByUserIDHandle();
     QString TablesByRestaurantIDHandle();

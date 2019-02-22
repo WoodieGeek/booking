@@ -1,11 +1,11 @@
-#include "requesthandler.h"
+#include "getrequesthandler.h"
 
-RequestHandler::RequestHandler(std::shared_ptr<QSqlDatabase> db, std::shared_ptr<Request> request)
+GetRequestHandler::RequestHandler(std::shared_ptr<QSqlDatabase> db, std::shared_ptr<Request> request)
     : DB_(db)
     , Request_(request) {
 }
 
-QString RequestHandler::RestaurantHandle() {
+QString GetRequestHandler::RestaurantHandle() {
     QJsonArray restaurantsArray;
     std::unique_ptr<QSqlQuery> query(new QSqlQuery(*DB_));
     QVector<QString> Columns = {"ID", "Name", "Description", "Address", "Thumbmail"};
@@ -22,7 +22,7 @@ QString RequestHandler::RestaurantHandle() {
     return QString(result.toJson());
 }
 
-QString RequestHandler::OrderByUserIDHandle() {
+QString GetRequestHandler::OrderByUserIDHandle() {
     QJsonArray ordersArray;
     std::unique_ptr<QSqlQuery> query(new QSqlQuery(*DB_));
     std::unique_ptr<QSqlQuery> queryTables(new QSqlQuery(*DB_));
@@ -72,9 +72,9 @@ QString RequestHandler::OrderByUserIDHandle() {
     return QString(result.toJson());
 }
 
-QString RequestHandler::TablesByRestaurantIDHandle() {
+QString GetRequestHandler::TablesByRestaurantIDHandle() {
     QJsonArray tables;
-    QString getRestaurant("SELECT ID, Type, H, W, X, Y FROM Tables WHERE RestaurantID = %1");
+    QString getRestaurant("SELECT ID, H, W, X, Y, Type FROM Tables WHERE RestaurantID = %1");
     QString getOrders(QString("SELECT ") +
                       "Orders.StartTime, Orders.FinishTime FROM BookedTables INNER JOIN Orders on " +
                       "BookedTables.OrderID = Orders.ID " +
@@ -100,7 +100,6 @@ QString RequestHandler::TablesByRestaurantIDHandle() {
             }
             std::unique_ptr<QSqlQuery> queryTables(new QSqlQuery(*DB_));
             QJsonArray orders;
-            qDebug() << getOrders.arg(table["ID"].toString(), left, right);
             if (queryTables->exec(getOrders.arg(table["ID"].toString(), left, right))) {
                 while (queryTables->next()) {
                     orders.append(queryTables->value(0).toString());
