@@ -23,7 +23,7 @@ private:
     std::unique_ptr<QThreadPool> ThreadPool;
     std::shared_ptr<QSqlDatabase> DB_;
     quint16 PORT = 8001;
-    QString NameDB = "booking.db";
+    QString NameDB = "../booking/booking.db";
 };
 
 #endif // SERVER_H

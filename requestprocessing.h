@@ -25,6 +25,7 @@ private:
     qintptr Socket_id;
     std::unique_ptr<QTcpSocket> Socket_;
     std::shared_ptr<QSqlDatabase> DB_;
+    std::shared_ptr<Request> Request_;
 };
 
 #endif // REQUESTPROCESSING_H

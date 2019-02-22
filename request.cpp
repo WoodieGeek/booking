@@ -4,7 +4,7 @@ Request::Request(const QString& request) {
     QStringList headers = request.split("\r\n");
     QStringList StartingLine = headers[0].split(' ');
     this->Type_ = StartingLine[0];
-    this->Uri_ = StartingLine[1];
+    this->Url_ = StartingLine[1];
     headers.pop_front();
     for (auto& line : headers) {
         QString key, value;
@@ -23,6 +23,14 @@ Request::Request(const QString& request) {
         }
         this->Headers_[std::move(key)] = std::move(value);
     }
+    QUrl url(Url_);
+    this->Path_ = url.path();
+    QStringList cgi = url.query().split('&');
+    for (const auto& param : cgi) {
+        QStringList paramList = param.split('=');
+        if (paramList.size() == 2)
+            this->Cgi_[paramList[0]] = paramList[1];
+    }
 }
 
 const QString& Request::GetType() const {
@@ -30,5 +38,16 @@ const QString& Request::GetType() const {
 }
 
 const QString& Request::GetUri() const {
-    return Uri_;
+    return Url_;
+}
+
+const QString& Request::GetPath() const {
+    return Path_;
+}
+
+QString Request::GetCgi(const QString& name) const {
+    if (Cgi_.contains(name))
+        return Cgi_[name];
+    else
+        return QString();
 }

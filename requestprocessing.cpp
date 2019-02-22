@@ -7,10 +7,24 @@ RequestProcessing::RequestProcessing(qintptr socket_id, std::shared_ptr<QSqlData
 }
 
 void RequestProcessing::Responce() {
-    Request request(Socket_->readAll());
-    RequestHandler handler(DB_);
-    if (request.GetUri() == "/restaurants.json") {
-        Socket_->write(handler.RestaurantHandle().toLocal8Bit());
+    QString ask(Socket_->readAll());
+    if (ask.isEmpty())
+        return;
+    Request_.reset(new Request(ask));
+    RequestHandler handler(DB_, Request_);
+    QString responce;
+    if (Request_->GetPath() == "/restaurants.json") {
+        responce = handler.RestaurantHandle();
+    }
+    if (Request_->GetPath() == "/orders.json") {
+        responce = handler.OrderByUserIDHandle();
+    }
+    if (responce.isEmpty()) {
+        Socket_->write("HTTP/1.1 404 \r\n\r\nBad request");
+    }
+    else {
+        responce = "HTTP/1.1 200 OK \r\n\r\n" + responce;
+        Socket_->write(responce.toLocal8Bit());
     }
     Socket_->disconnectFromHost();
 }
