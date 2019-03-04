@@ -5,3 +5,7 @@ PostRequestHandler::PostRequestHandler(std::shared_ptr<QSqlDatabase> db, std::sh
     , Request_(request) {
 
 }
+
+QString PostRequestHandler::AddOrder() const {
+
+}

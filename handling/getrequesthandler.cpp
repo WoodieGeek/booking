@@ -1,21 +1,23 @@
 #include "getrequesthandler.h"
 
-GetRequestHandler::RequestHandler(std::shared_ptr<QSqlDatabase> db, std::shared_ptr<Request> request)
-    : DB_(db)
+GetRequestHandler::GetRequestHandler(std::shared_ptr<QSqlDatabase> db, std::shared_ptr<Request> request)
+    : Db_(db)
     , Request_(request) {
+
 }
 
 QString GetRequestHandler::RestaurantHandle() {
+    TableRestaurants Restaurants;
+    std::shared_ptr<QSqlQuery> query(Db_(SELECT
+                                        (Restaurants.ID, Restaurants.Name, Restaurants.Description, Restaurants.Address, Restaurants.Thumbnail).
+                                        FROM(Restaurants)));
     QJsonArray restaurantsArray;
-    std::unique_ptr<QSqlQuery> query(new QSqlQuery(*DB_));
     QVector<QString> Columns = {"ID", "Name", "Description", "Address", "Thumbmail"};
-    if (query->exec("SELECT * FROM Restaurants")) {
-        while (query->next()) {
-            QJsonObject restaurant;
-            for (int i = 0; i < Columns.size(); i++)
-                restaurant[Columns[i]] = query->value(i).toString();
-            restaurantsArray.append(std::move(restaurant));
-        }
+    while (query->next()) {
+        QJsonObject restaurant;
+        for (int i = 0; i < Columns.size(); i++)
+            restaurant[Columns[i]] = query->value(i).toString();
+        restaurantsArray.append(std::move(restaurant));
     }
     QJsonDocument result;
     result.setArray(restaurantsArray);
@@ -23,6 +25,7 @@ QString GetRequestHandler::RestaurantHandle() {
 }
 
 QString GetRequestHandler::OrderByUserIDHandle() {
+    /*
     QJsonArray ordersArray;
     std::unique_ptr<QSqlQuery> query(new QSqlQuery(*DB_));
     std::unique_ptr<QSqlQuery> queryTables(new QSqlQuery(*DB_));
@@ -70,9 +73,11 @@ QString GetRequestHandler::OrderByUserIDHandle() {
     QJsonDocument result;
     result.setArray(ordersArray);
     return QString(result.toJson());
+    */
 }
 
 QString GetRequestHandler::TablesByRestaurantIDHandle() {
+    /*
     QJsonArray tables;
     QString getRestaurant("SELECT ID, H, W, X, Y, Type FROM Tables WHERE RestaurantID = %1");
     QString getOrders(QString("SELECT ") +
@@ -113,4 +118,5 @@ QString GetRequestHandler::TablesByRestaurantIDHandle() {
     QJsonDocument result;
     result.setArray(tables);
     return QString(result.toJson());
+    */
 }

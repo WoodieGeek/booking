@@ -22,7 +22,8 @@ SOURCES += \
     handling/request.cpp \
     handling/getrequesthandler.cpp \
     server.cpp \
-    handling/postrequesthandler.cpp
+    handling/postrequesthandler.cpp \
+    sqlalchemy/operation.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -34,4 +35,13 @@ HEADERS += \
     handling/requestprocessing.h \
     handling/request.h \
     handling/getrequesthandler.h \
-    handling/postrequesthandler.h
+    handling/postrequesthandler.h \
+    sqlalchemy/sqltable.h \
+    sqlalchemy/operations.h \
+    sqlalchemy/select.h \
+    sqlalchemy/from.h \
+    sqlalchemy/db.h \
+    sqlalchemy/filter.h \
+    sqlalchemy/where.h \
+    sqlalchemy/innerjoin.h \
+    sqlalchemy/on.h

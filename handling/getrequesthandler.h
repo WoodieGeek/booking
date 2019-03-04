@@ -9,6 +9,10 @@
 #include <QSqlQuery>
 #include <QDateTime>
 #include "request.h"
+#include "sqlalchemy/operations.h"
+#include "sqlalchemy/db.h"
+#include "sqlalchemy/select.h"
+#include "sqlalchemy/sqltable.h"
 
 class GetRequestHandler
 {
@@ -18,7 +22,7 @@ public:
     QString OrderByUserIDHandle();
     QString TablesByRestaurantIDHandle();
 private:
-    std::shared_ptr<QSqlDatabase> DB_;
+    Db Db_;
     std::shared_ptr<Request> Request_;
 };
 
