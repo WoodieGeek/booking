@@ -6,27 +6,25 @@
 struct Select : public Operation {
     template <typename ...Cs>
     Select (Operation* parent = nullptr, Cs... columns)
-        : Operation (parent, columns...)
-        , From_(this) {
+        : Operation (parent, columns...) {
         PartQuery_ = "SELECT " + Names_;
     }
 
     template <typename ...Cs>
     Select& operator() (Cs... columns) {
         Names_.clear();
-        From_.PartQuery_ = " FROM ";
         Parse(columns...);
         PartQuery_ = "SELECT " + Names_;
         return *this;
     }
 
     From& FROM(const Table& table) {
-        From_.PartQuery_ += table.Name_;
-        return From_;
+        From_.reset(new From(table, this));
+        return *From_;
     }
 
 private:
-    From From_;
+    std::unique_ptr<From> From_;
 };
 
 static Select SELECT;

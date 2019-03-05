@@ -3,7 +3,6 @@
 Server::Server(QObject* parent)
     : QTcpServer(parent)
     , ThreadPool(new QThreadPool(this)) {
-
     DB_.reset(new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE")));
     DB_->setDatabaseName(NameDB);
     if (!DB_->open())

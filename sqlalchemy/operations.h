@@ -19,11 +19,23 @@ template <typename T>
 struct Column {
     QString Name;
     T Value;
-    Filter operator == (T rhs) {
+    Filter operator == (const T& rhs) {
         QString result = this->Name + " = ";
         add(rhs, result);
         result.resize(result.size() - 2);
         return {result};
+    }
+    template <typename V>
+    Filter operator == (const Column<V>& rhs) {
+        return {this->Name + " = " + rhs.Name};
+    }
+
+    Filter operator <= (const T& rhs) {
+        return {this->Name + " <= " + QString::number(rhs)};
+    }
+
+    Filter operator >= (const T& rhs) {
+        return {this->Name + " >= " + QString::number(rhs)};
     }
 };
 

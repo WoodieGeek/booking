@@ -6,26 +6,24 @@
 #include "innerjoin.h"
 
 struct From : public Operation {
-    From (Operation* parent = nullptr)
-        : Operation (parent)
-        , Where_(this)
-        , InnerJoin_(this) {
-        PartQuery_ = " FROM ";
+    From (const Table& table, Operation* parent = nullptr)
+        : Operation (parent) {
+        PartQuery_ = " FROM " + table.Name_;
     }
 
     Where& WHERE(const Filter& filter) {
-        Where_.PartQuery_ += filter.Filter_;
-        return Where_;
+        Where_.reset(new Where(filter, this));
+        return *Where_;
     }
 
     InnerJoin& INNER_JOIN(const Table& table) {
-        InnerJoin_.PartQuery_ += table.Name_;
-        return InnerJoin_;
+        InnerJoin_.reset(new InnerJoin(table, this));
+        return *InnerJoin_;
     }
 
 private:
-    Where Where_;
-    InnerJoin InnerJoin_;
+    std::unique_ptr<Where> Where_;
+    std::unique_ptr<InnerJoin> InnerJoin_;
 };
 
 #endif // FROM_H

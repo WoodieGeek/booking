@@ -13,6 +13,8 @@
 #include "sqlalchemy/db.h"
 #include "sqlalchemy/select.h"
 #include "sqlalchemy/sqltable.h"
+#include "sqlalchemy/on.h"
+
 
 class GetRequestHandler
 {

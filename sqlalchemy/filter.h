@@ -5,11 +5,11 @@
 struct Filter {
     Filter() = default;
     Filter(const QString& filter) : Filter_(filter) {}
-    const Filter& operator & (const Filter& rhs) {
+    Filter operator & (const Filter& rhs) const {
         Filter result(Filter_ + " and " + rhs.Filter_);
         return result;
     }
-    const Filter& operator | (const Filter& rhs) {
+    Filter operator | (const Filter& rhs) const {
         Filter result(Filter_ + " or " + rhs.Filter_);
         return result;
     }

@@ -23,7 +23,8 @@ SOURCES += \
     handling/getrequesthandler.cpp \
     server.cpp \
     handling/postrequesthandler.cpp \
-    sqlalchemy/operation.cpp
+    sqlalchemy/operation.cpp \
+    sqlalchemy/innerjoin.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -1,22 +1,16 @@
 #ifndef INNERJOIN_H
 #define INNERJOIN_H
 #include "operations.h"
-#include "on.h"
 #include "filter.h"
 
-struct InnerJoin : public Operation {
-    InnerJoin(Operation* parent = nullptr)
-        : Operation(parent)
-        , On_(this) {
-        PartQuery_ = " INNER JOIN ";
-    }
+struct On;
 
-    On& ON(const Filter& filer) {
-        On_.PartQuery_ += filer.Filter_;
-        return On_;
-    }
+struct InnerJoin : public Operation {
+    InnerJoin(const Table& table, Operation* parent = nullptr);
+    On& ON(const Filter& filer);
+    ~InnerJoin();
 private:
-    On On_;
+    std::unique_ptr<On> On_;
 };
 
 #endif // INNERJOIN_H

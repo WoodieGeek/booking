@@ -36,5 +36,60 @@ struct TableRestaurants : public Table {
     }
 };
 
+struct TableOrders : public Table {
+    Column<int> ID;
+    Column<int> RestaurantsID;
+    Column<int> UserID;
+    Column<int> StartTime;
+    Column<int> FinishTime;
+    TableOrders() {
+        Name_ = "Orders";
+        ID.Name = Name_ + ".ID";
+        RestaurantsID.Name = Name_ + ".RestaurantsID";
+        UserID.Name = Name_ + ".UserID";
+        StartTime.Name = Name_ + ".StartTime";
+        FinishTime.Name = Name_ + ".FinishTime";
+    }
+};
+
+struct TableTables : public Table {
+    Column<int> ID;
+    Column<int> RestaurantID;
+    Column<int> H;
+    Column<int> W;
+    Column<int> X;
+    Column<int> Y;
+    Column<int> Type;
+    TableTables() {
+        Name_ = "Tables";
+        ID.Name = Name_ + ".ID";
+        RestaurantID.Name = Name_ + ".RestaurantID";
+        H.Name = Name_ + ".H";
+        W.Name = Name_ + ".W";
+        X.Name = Name_ + ".X";
+        Y.Name = Name_ + ".Y";
+        Type.Name = Name_ + ".Type";
+    }
+};
+
+struct TableTableType : public Table {
+    Column<int> ID;
+    Column<QString> Name;
+    TableTableType() {
+        Name_ = "TableType";
+        ID.Name = Name_ + ".ID";
+        Name.Name = Name_ + ".Name";
+    }
+};
+
+struct TableBookedTables : public Table {
+    Column<int> TableID;
+    Column<int> OrderID;
+    TableBookedTables() {
+        Name_= "BookedTables";
+        TableID.Name = Name_ + ".TableID";
+        OrderID.Name = Name_ + ".OrderID";
+    }
+};
 
 #endif // SQLTABLE_H

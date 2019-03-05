@@ -27,6 +27,7 @@ void RequestProcessing::GetRequest() {
 void RequestProcessing::PostRequest() {
 
 }
+
 void RequestProcessing::Responce() {
     QString ask(Socket_->readAll());
     if (ask.isEmpty())
