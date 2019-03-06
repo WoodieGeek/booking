@@ -13,9 +13,9 @@ struct TableUsers : public Table {
     Column<int> Type;
     TableUsers() {
         Name_ = "Users";
-        ID.Name = Name_ + ".ID";
-        Name.Name = Name_ + ".Name";
-        Type.Name = Name_ + ".Type";
+        ID = {"ID", Name_};
+        Name = {"Name", Name_};
+        Type = {"Type", Name_};
 
     }
 };
@@ -28,27 +28,27 @@ struct TableRestaurants : public Table {
     Column<QString> Thumbnail;
     TableRestaurants() {
         Name_ = "Restaurants";
-        ID.Name = Name_ + ".ID";
-        Name.Name = Name_ + ".Name";
-        Description.Name = Name_ + ".Description";
-        Address.Name = Name_ + ".Address";
-        Thumbnail.Name = Name_ + ".Thumbnail";
+        ID = {"ID", Name_};
+        Name = {"Name", Name_};
+        Description = {"Description", Name_};
+        Address = {"Address", Name_};
+        Thumbnail = {"Thumbnail", Name_};
     }
 };
 
 struct TableOrders : public Table {
     Column<int> ID;
-    Column<int> RestaurantsID;
+    Column<int> RestaurantID;
     Column<int> UserID;
     Column<int> StartTime;
     Column<int> FinishTime;
     TableOrders() {
         Name_ = "Orders";
-        ID.Name = Name_ + ".ID";
-        RestaurantsID.Name = Name_ + ".RestaurantsID";
-        UserID.Name = Name_ + ".UserID";
-        StartTime.Name = Name_ + ".StartTime";
-        FinishTime.Name = Name_ + ".FinishTime";
+        ID = {"ID", Name_};
+        RestaurantID = {"RestaurantID", Name_};
+        UserID = {"UserID", Name_};
+        StartTime = {"StartTime",  Name_};
+        FinishTime = {"FinishTime",  Name_};
     }
 };
 
@@ -62,13 +62,13 @@ struct TableTables : public Table {
     Column<int> Type;
     TableTables() {
         Name_ = "Tables";
-        ID.Name = Name_ + ".ID";
-        RestaurantID.Name = Name_ + ".RestaurantID";
-        H.Name = Name_ + ".H";
-        W.Name = Name_ + ".W";
-        X.Name = Name_ + ".X";
-        Y.Name = Name_ + ".Y";
-        Type.Name = Name_ + ".Type";
+        ID = {"ID", Name_};
+        RestaurantID = {"RestaurantID", Name_};
+        H = {"H", Name_};
+        W = {"W", Name_};
+        X = {"X", Name_};
+        Y = {"Y", Name_};
+        Type = {"Type", Name_};
     }
 };
 
@@ -77,8 +77,8 @@ struct TableTableType : public Table {
     Column<QString> Name;
     TableTableType() {
         Name_ = "TableType";
-        ID.Name = Name_ + ".ID";
-        Name.Name = Name_ + ".Name";
+        ID = {"ID", Name_};
+        Name = {"Name", Name_};
     }
 };
 
@@ -86,9 +86,9 @@ struct TableBookedTables : public Table {
     Column<int> TableID;
     Column<int> OrderID;
     TableBookedTables() {
-        Name_= "BookedTables";
-        TableID.Name = Name_ + ".TableID";
-        OrderID.Name = Name_ + ".OrderID";
+        Name_ = "BookedTables";
+        TableID = {"TableID", Name_};
+        OrderID = {"OrderID", Name_};
     }
 };
 

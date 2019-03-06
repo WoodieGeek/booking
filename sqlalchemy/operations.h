@@ -1,6 +1,6 @@
 #ifndef OPERATIONS_H
 #define OPERATIONS_H
-#include <bits/stdc++.h>
+#include <memory>
 #include <QString>
 #include <QLocale>
 #include <QTextStream>
@@ -11,13 +11,14 @@ static void add(int x, QString& s) {
     s += QString::number(x) + ", ";
 }
 
-static void add(QString p, QString s) {
-    s += "\"" + p + "\", ";
+static void add(const QString& p, QString& s) {
+    s += "'" + p + "', ";
 }
 
 template <typename T>
 struct Column {
     QString Name;
+    QString Table;
     T Value;
     Filter operator == (const T& rhs) {
         QString result = this->Name + " = ";
@@ -37,6 +38,11 @@ struct Column {
     Filter operator >= (const T& rhs) {
         return {this->Name + " >= " + QString::number(rhs)};
     }
+
+    Column<T> operator = (const T& rhs) {
+        Value = rhs;
+        return *this;
+    }
 };
 
 struct Table {
@@ -48,9 +54,9 @@ public:
     Operation() = default;
 
     template<typename ...Cs>
-    Operation(Operation* parent = nullptr, Cs... columns)
+    Operation(bool addTable, Operation* parent = nullptr, Cs... columns)
         : Parent_(parent) {
-        Parse(columns...);
+        Parse(addTable, columns...);
     }
 
     Operation(Operation* parent)
@@ -62,14 +68,14 @@ public:
     }
 
     template<typename T, typename ...Cs>
-    void Parse(const Column<T>& column, Cs ...columns) {
-        Names_ += column.Name + ", ";
+    void Parse(bool addTable, const Column<T>& column, Cs ...columns) {
+        Names_ += (addTable? column.Table + "." : "") + column.Name + ", ";
         QLocale local;
         add(column.Value, Values_);
-        Parse(columns...);
+        Parse(addTable, columns...);
     }
 
-    void Parse() {
+    void Parse(bool) {
         Names_.resize(Names_.size() - 2);
         Values_.resize(Values_.size() - 2);
     }

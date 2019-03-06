@@ -15,6 +15,13 @@ struct Db {
    std::shared_ptr<QSqlDatabase> DB_;
    Db(std::shared_ptr<QSqlDatabase> db_) : DB_(db_) {
    }
+   int LastInsertRowID() {
+        std::unique_ptr<QSqlQuery> getId(new QSqlQuery(*DB_));
+        if(!getId->exec("SELECT last_insert_rowid()"))
+            return 0;
+        getId->next();
+        return getId->value(0).toInt();
+   }
 };
 
 #endif // DB_H

@@ -1,6 +1,5 @@
 #ifndef REQUESTHANDLER_H
 #define REQUESTHANDLER_H
-#include <bits/stdc++.h>
 #include <QSqlDatabase>
 #include <QJsonObject>
 #include <QJsonDocument>

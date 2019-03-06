@@ -25,13 +25,18 @@ void RequestProcessing::GetRequest() {
 }
 
 void RequestProcessing::PostRequest() {
-
+    PostRequestHandler handler(DB_, Request_);
+    QString responce;
+    if (Request_->GetPath() == "/order")
+        responce = handler.Order();
+    Socket_->write(responce.toLocal8Bit());
 }
 
 void RequestProcessing::Responce() {
     QString ask(Socket_->readAll());
     if (ask.isEmpty())
         return;
+    qDebug() << ask;
     Request_.reset(new Request(ask));
     if (Request_->GetType() == "GET")
         GetRequest();

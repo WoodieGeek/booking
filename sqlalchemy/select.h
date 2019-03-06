@@ -6,14 +6,14 @@
 struct Select : public Operation {
     template <typename ...Cs>
     Select (Operation* parent = nullptr, Cs... columns)
-        : Operation (parent, columns...) {
+        : Operation (true, parent, columns...) {
         PartQuery_ = "SELECT " + Names_;
     }
 
     template <typename ...Cs>
     Select& operator() (Cs... columns) {
         Names_.clear();
-        Parse(columns...);
+        Parse(true, columns...);
         PartQuery_ = "SELECT " + Names_;
         return *this;
     }

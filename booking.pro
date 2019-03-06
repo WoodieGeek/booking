@@ -45,4 +45,6 @@ HEADERS += \
     sqlalchemy/filter.h \
     sqlalchemy/where.h \
     sqlalchemy/innerjoin.h \
-    sqlalchemy/on.h
+    sqlalchemy/on.h \
+    sqlalchemy/insert_into.h \
+    sqlalchemy/set.h
