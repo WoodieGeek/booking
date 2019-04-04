@@ -8,7 +8,8 @@
 #include <QFile>
 #include <QThreadPool>
 #include <QSqlDatabase>
-#include <QSqlQuery>
+#include <QJsonObject>
+#include <QJsonDocument>
 
 class Server : public QTcpServer
 {
@@ -20,10 +21,13 @@ public:
 public slots:
     void StartServer();
 private:
+    void ReadConfig();
+private:
     std::unique_ptr<QThreadPool> ThreadPool;
     std::shared_ptr<QSqlDatabase> DB_;
-    quint16 PORT = 8001;
-    QString NameDB = "../booking/booking.db";
+    quint16 PORT;
+    QString NameDB;
+    QString IP;
 };
 
 #endif // SERVER_H
