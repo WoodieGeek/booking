@@ -28,7 +28,7 @@ struct Column {
     }
     template <typename V>
     Filter operator == (const Column<V>& rhs) {
-        return {this->Name + " = " + rhs.Name};
+        return {this->FullName() + " = " + rhs.FullName()};
     }
 
     Filter operator <= (const T& rhs) {
@@ -42,6 +42,10 @@ struct Column {
     Column<T> operator = (const T& rhs) {
         Value = rhs;
         return *this;
+    }
+
+    QString FullName() const {
+        return Table + "." + Name;
     }
 };
 

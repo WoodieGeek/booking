@@ -3,6 +3,7 @@
 Server::Server(QObject* parent)
     : QTcpServer(parent)
     , ThreadPool(new QThreadPool(this)) {
+    qDebug() << ThreadPool->maxThreadCount();
     ReadConfig();
     DB_.reset(new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE")));
     DB_->setDatabaseName(NameDB);

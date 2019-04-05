@@ -57,7 +57,7 @@ QString GetRequestHandler::OrderByUserIDHandle() {
             order["Restaurant"] = std::move(restaurant);
             int orderID = order["ID"].toString().toInt();
             std::shared_ptr<QSqlQuery> queryTables(Db_(
-                                       SELECT(Tables.ID, Tables.H, Tables.W, Tables.X, TableType.Name).
+                                       SELECT(Tables.ID, Tables.H, Tables.W, Tables.X, Tables.Y, TableType.Name).
                                        FROM(BookedTables).
                                        INNER_JOIN(Tables).ON(BookedTables.TableID == Tables.ID).
                                        INNER_JOIN(TableType).ON(Tables.Type == TableType.ID).WHERE(BookedTables.OrderID == orderID)));
